@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Account</title>
+    <style>
+        body {
+          font-family: Arial, sans-serif;
+          margin: 20px;
+        }
+        .account-info {
+          margin-bottom: 20px;
+        }
+      </style>
+</head>
+<body>
+
+    <h1>Bank Account Management System</h1>
+
+<div class="account-info" id="accountInfo1"></div>
+<div class="account-info" id="accountInfo2"></div>
+<div class="account-info" id="accountInfo3"></div>
+    <script>
+        function BankAccount(accountNumber, name, type, balance) {
+            this.accountNumber = accountNumber;
+            this.name = name;
+            this.type = type;
+            this.balance = balance;
+            this.active = true; // Assume the account is active by default
+          }
+        
+          BankAccount.prototype.deposit = function(amount) {
+            if (amount > 0) {
+              this.balance += amount;
+              console.log(`Deposited $${amount}. New balance: $${this.balance}`);
+            } else {
+              console.log('Invalid deposit amount.');
+            }
+          };
+        
+          BankAccount.prototype.withdraw = function(amount) {
+            if (amount > 0 && amount <= this.balance) {
+              this.balance -= amount;
+              console.log(`Withdrawn $${amount}. New balance: $${this.balance}`);
+            } else {
+              console.log('Invalid withdrawal amount or insufficient funds.');
+            }
+          };
+        
+          BankAccount.prototype.checkBalance = function() {
+            console.log(`Account balance for ${this.name}: $${this.balance}`);
+          };
+        
+          BankAccount.prototype.isActive = function() {
+            return this.active;
+          };
+        
+          const account1 = new BankAccount(1, 'suraj', 'Savings', 1000);
+          const account2 = new BankAccount(2, 'pathak', 'Checking', 2000);
+          const account3 = new BankAccount(3, 'IA', 'Current', 3000);
+        
+          account1.deposit(500);
+          account1.withdraw(200);
+          account1.checkBalance();
+        
+          account2.deposit(1000);
+          account2.withdraw(500);
+          account2.checkBalance();
+         
+          account3.deposit(100);
+          account3.withdraw(300);
+          account3.checkBalance();
+
+          console.log(`Account 1 is active: ${account1.isActive()}`);
+          console.log(`Account 2 is active: ${account2.isActive()}`);
+          console.log(`Account 3 is active: ${account3.isActive()}`);
+        
+          function getTotalBalance(accounts) {
+            let totalBalance = 0;
+            for (const account of accounts) {
+              if (account.isActive()) {
+                totalBalance += account.balance;
+              }
+            }
+            return totalBalance;
+          }
+    
+          const allAccounts = [account1, account2,account3];
+          const totalBalance = getTotalBalance(allAccounts);
+          console.log(`Total balance of all active accounts: $${totalBalance}`);
+    
+          document.getElementById('accountInfo1').innerHTML = `<h2>${account1.name}'s Account</h2>`;
+          document.getElementById('accountInfo2').innerHTML = `<h2>${account2.name}'s Account</h2>`;
+          document.getElementById('accountInfo3').innerHTML = `<h2>${account3.name}'s Account</h2>`;
+    </script>
+</body>
+</html>
